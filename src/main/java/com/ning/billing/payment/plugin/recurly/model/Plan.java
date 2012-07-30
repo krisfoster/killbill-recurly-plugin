@@ -16,9 +16,14 @@
 
 package com.ning.billing.payment.plugin.recurly.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import java.util.List;
 
 @XmlRootElement(name = "plan")
 public class Plan extends RecurlyObject {
@@ -27,6 +32,10 @@ public class Plan extends RecurlyObject {
 
     /////////////////////////////////////////////////////
     // Attributes...
+
+    @XmlElementWrapper(name = "add_ons")
+    @XmlElement(name = "add_on")
+    private List<AddOn> addOns;
 
     @XmlElement(name = "plan_code")
     private String planCode;
@@ -76,6 +85,16 @@ public class Plan extends RecurlyObject {
 
     @XmlElement(name = "created_at")
     private RecurlyDateTime createdAt;
+
+    @XmlElement(name = "i_dont_exist")
+    private String iDontExist;
+
+    @XmlElement(name = "unit_amount_in_cents")
+    private RecurlyUnitCurrency unitAmountInCents;
+
+    @XmlElement(name = "setup_fee_in_cents")
+    private RecurlyUnitCurrency setupFeeInCents;
+
 
     /////////////////////////////////////////////////////
     // Getters & Setters
@@ -208,6 +227,45 @@ public class Plan extends RecurlyObject {
         this.createdAt = createdAt;
     }
 
+    // public String getUnitAmountsInCents() {
+    //     return unitAmountsInCents;
+    // }
+
+    // public void setUnitAmountsInCents(final Object unitAmountsInCents) {
+    //     this.unitAmountsInCents = stringOrNull(unitAmountsInCents);
+    // }
+
+    public String getIDontExist() {
+        return iDontExist;
+    }
+
+    public void setIDontExist(final Object iDontExist) {
+        this.iDontExist = stringOrNull(iDontExist);
+    }
+
+    public RecurlyUnitCurrency getUnitAmountInCents() {
+        return unitAmountInCents;
+    }
+
+    public void setUnitAmountInCents(final RecurlyUnitCurrency unitAmountInCents) {
+        this.unitAmountInCents = unitAmountInCents;
+    }
+
+    public RecurlyUnitCurrency getSetupFeeInCents() {
+        return setupFeeInCents;
+    }
+
+    public void setSetupFeeInCents(final RecurlyUnitCurrency setupFeeInCents) {
+        this.setupFeeInCents = setupFeeInCents;
+    }
+
+    public List<AddOn> getAddOns() {
+        return this.addOns;
+    }
+
+    public void setAddOns(final List<AddOn> addOns) {
+        this.addOns = addOns;
+    }
 
     /////////////////////////////////////////////////////
     // Other
@@ -232,6 +290,9 @@ public class Plan extends RecurlyObject {
         sb.append(", trialIntervalLength='").append(trialIntervalLength).append('\'');
         sb.append(", accountingCode='").append(accountingCode).append('\'');
         sb.append(", createdAt='").append(createdAt).append('\'');
+        sb.append(", unitAmountInCents='").append(unitAmountInCents).append('\'');
+        sb.append(", setupFeeInCents='").append(setupFeeInCents).append('\'');
+        sb.append(", addOns='").append(addOns).append('\'');
         sb.append('}');
         return sb.toString();
     }
@@ -266,4 +327,137 @@ public class Plan extends RecurlyObject {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
+
+    ////////////////////////////////////////////////////////////////////
+    //
+    //@XmlRootElement(name = "unit_amount_in_cents")
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    protected static class RecurlyUnitCurrency {
+        @XmlElement(name = "EUR")
+        @XmlValue
+        private Integer unitAmountEUR;
+
+        @XmlElement(name = "GBP")
+        @XmlValue
+        private Integer unitAmountGBP;
+
+        @XmlElement(name = "USD")
+        @XmlValue
+        private Integer unitAmountUSD;
+
+        @XmlElement(name = "SEK")
+        @XmlValue
+        private Integer unitAmountSEK;
+
+        public void setUnitAmountEUR(final Object unitAmountEUR) {
+            this.unitAmountEUR = integerOrNull(unitAmountEUR);
+        }
+
+        public Integer getUnitAmountEUR() {
+            return this.unitAmountEUR;
+        }
+
+        public void setUnitAmountGBP(final Object unitAmountGBP) {
+            this.unitAmountGBP = integerOrNull(unitAmountGBP);
+        }
+
+        public Integer getUnitAmountGBP() {
+            return this.unitAmountGBP;
+        }
+
+        public void setUnitAmountUSD(final Object unitAmountUSD) {
+            this.unitAmountUSD = integerOrNull(unitAmountUSD);
+        }
+
+        public Integer getUnitAmountUSD() {
+            return this.unitAmountUSD;
+        }
+
+        public void setUnitAmountSEK(final Object unitAmountSEK) {
+            this.unitAmountSEK = integerOrNull(unitAmountSEK);
+        }
+
+        public Integer getUnitAmountSEK() {
+            return this.unitAmountSEK;
+        }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder();
+            sb.append("UnitAmountInCents");
+            sb.append("{amount-in-EUR='").append(unitAmountEUR).append('\'');
+            sb.append(",amount-in-GBP='").append(unitAmountGBP).append('\'');
+            sb.append(",amount-in-USD='").append(unitAmountUSD).append('\'');
+            sb.append(",amount-in-SEK='").append(unitAmountSEK).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
+
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    protected static class RecurlyCurrencyAmount {
+        private static  String CURRENCY_EURO = "EURO";
+        private static  String CURRENCY_GBP  = "GBP";
+
+        @XmlValue
+        private String amount;
+
+        private String unit;
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(final String unit) {
+            this.unit = unit;
+        }
+
+        public String getAmount() {
+            return amount;
+        }
+
+        public void setAmount(final Object amount) {
+            this.amount = stringOrNull(amount);
+        }
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder();
+            sb.append("CurrencyAmount");
+            sb.append("{unit='").append(unit).append('\'');
+            sb.append(", amount='").append(amount).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
+            final RecurlyCurrencyAmount currency = (RecurlyCurrencyAmount) o;
+
+            if (amount != null ? !amount.equals(currency.amount) : currency.amount != null) {
+                return false;
+            }
+            if (unit != null ? !unit.equals(currency.unit) : currency.unit != null) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = unit != null ? unit.hashCode() : 0;
+            result = 31 * result + (amount != null ? amount.hashCode() : 0);
+            return result;
+        }
+    }
+
 }

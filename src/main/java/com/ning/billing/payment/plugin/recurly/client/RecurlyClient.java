@@ -181,18 +181,18 @@ public class RecurlyClient {
      * Create a Plan's info
      * <p/>
      * 
-     * @param planCod recurl id of plan
+     * @param plan The plan to create on recurly
      * @return the plan object as identified by the passed in ID
      */
     public Plan createPlan(final Plan plan) {
-        throw new UnsupportedOperationException("getPlan() - Not yet implemented");
+        return doPOST(PLAN.PLANS_RESOURCE, plan, Plan.class);
     }
 
     /**
      * Get a Plan's details
      * <p/>
      * 
-     * @param planCode recurl id of plan
+     * @param planCode recurly id of plan
      * @return the plan object as identified by the passed in ID
      */
     public Plan getPlan(final String planCode) {

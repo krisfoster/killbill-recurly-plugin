@@ -18,6 +18,7 @@ package com.ning.billing.payment.plugin.recurly.client;
 
 import com.ning.billing.payment.plugin.recurly.model.Account;
 import com.ning.billing.payment.plugin.recurly.model.BillingInfo;
+import com.ning.billing.payment.plugin.recurly.model.Plan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -93,5 +94,25 @@ public class TestRecurlyClient {
 
         final BillingInfo retrievedBillingInfo = recurlyClient.getBillingInfo(account.getAccountCode());
         Assert.assertEquals(retrievedBillingInfo, billingInfo);
+
     }
+
+    @Test(groups = "integration")
+    public void testCreatePlan() throws Exception {
+        // Create a plan
+        //final Plan plan = new Plan();
+        //plan.setPlanCode(randomString());
+        //plan.setName(randomString());
+        //plan.
+        // Can we fetch it and does it match what we created.
+        // Do fetch of all plans.
+        
+        final String planCode = "10Duke";
+        final Plan plan = recurlyClient.getPlan(planCode);
+        System.err.println("********************************");
+        System.err.println("Plan ::");
+        System.err.println(plan.toString());
+        System.err.println("********************************");
+    }
+
 }

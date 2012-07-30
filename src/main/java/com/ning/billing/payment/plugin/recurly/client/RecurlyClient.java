@@ -24,6 +24,7 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
 import com.ning.billing.payment.plugin.recurly.model.Account;
 import com.ning.billing.payment.plugin.recurly.model.BillingInfo;
+import com.ning.billing.payment.plugin.recurly.model.Plan;
 import com.ning.billing.payment.plugin.recurly.model.RecurlyObject;
 import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
@@ -173,6 +174,34 @@ public class RecurlyClient {
     public void clearBillingInfo(final String accountCode) {
         doDELETE(Account.ACCOUNT_RESOURCE + "/" + accountCode + BillingInfo.BILLING_INFO_RESOURCE);
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Create a Plan's info
+     * <p/>
+     * 
+     * @param planCod recurl id of plan
+     * @return the plan object as identified by the passed in ID
+     */
+    public Plan createPlan(final Plan plan) {
+        throw new UnsupportedOperationException("getPlan() - Not yet implemented");
+    }
+
+    /**
+     * Get a Plan's details
+     * <p/>
+     * 
+     * @param planCode recurl id of plan
+     * @return the plan object as identified by the passed in ID
+     */
+    public Plan getPlan(final String planCode) {
+        return doGET(Plan.PLANS_RESOURCE + "/" + planCode, Plan.class);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
 
     private <T> T doGET(final String resource, final Class<T> clazz) {
         return callRecurlySafe(client.prepareGet(baseUrl + resource), clazz);
